@@ -23,6 +23,7 @@ gulp.task('javascript', function() {
     .pipe(sourcemaps.write())
     .pipe(gulp.dest('./'));
 });
+gulp.task('javascriptsync', ['javascript'], browserSync.reload);
 gulp.task('serve', function() {
   browserSync.init({
     server: {
@@ -30,8 +31,8 @@ gulp.task('serve', function() {
     }
   });
 
-  gulp.watch("./source/app.css", ['synccss']);
-  gulp.watch("./source/*.js", ['javascript'], browserSync.reload);
+  gulp.watch("./source/*.css", ['synccss']);
+  gulp.watch("./source/*.js", ['javascriptsync']);
   gulp.watch("./index.html", browserSync.reload);
 });
 function css() {
