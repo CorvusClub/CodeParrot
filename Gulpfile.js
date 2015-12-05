@@ -5,6 +5,7 @@ var source = require('vinyl-source-stream');
 var buffer = require('vinyl-buffer');
 var browserify = require('browserify');
 var babel = require('babelify');
+var uglify = require('gulp-uglify');
 
 var postcss = require('gulp-postcss');
 var autoprefixer = require('autoprefixer');
@@ -20,6 +21,7 @@ gulp.task('javascript', function() {
     .pipe(source('index.js'))
     .pipe(buffer())
     .pipe(sourcemaps.init({loadMaps: true}))
+    .pipe(uglify())
     .pipe(sourcemaps.write())
     .pipe(gulp.dest('./'));
 });
