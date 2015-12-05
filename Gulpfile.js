@@ -14,18 +14,29 @@ var importCSS = require('postcss-import');
 var browserSync = require('browser-sync').create();
 
 gulp.task('javascript', function() {
-  var bundler = browserify('./source/index.js', {debug: true}).transform(babel, {presets: ["es2015"]});
-
-  return bundler.bundle()
+  return buildJS();
+});
+gulp.task('javascript_dev', function() {
+  return buildJS(true);
+});
+function buildJS(dev) {
+  var bundler = browserify('./source/index.js', {debug: dev}).transform(babel, {presets: ["es2015"]});
+  var fileStream = bundler.bundle()
     .on('error', function(error) { console.error(error); this.emit('end'); })
     .pipe(source('index.js'))
-    .pipe(buffer())
-    .pipe(sourcemaps.init({loadMaps: true}))
-    .pipe(uglify())
-    .pipe(sourcemaps.write())
-    .pipe(gulp.dest('./'));
-});
-gulp.task('javascriptsync', ['javascript'], browserSync.reload);
+    .pipe(buffer());
+  if(dev) {
+    fileStream = fileStream
+      .pipe(sourcemaps.init({loadMaps: true}))
+      .pipe(sourcemaps.write())
+  }
+  else {
+    fileStream = fileStream
+      .pipe(uglify())
+  }
+  return fileStream.pipe(gulp.dest('./'));
+}
+gulp.task('javascriptsync', ['javascript_dev'], browserSync.reload);
 gulp.task('serve', function() {
   browserSync.init({
     server: {
