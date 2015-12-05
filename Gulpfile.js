@@ -23,8 +23,8 @@ gulp.task('javascript', function() {
 });
 gulp.task('css', function() {
   var processors = [
-    autoprefixer(),
-    importCSS()
+    importCSS(),
+    autoprefixer()
   ];
   return gulp.src('./source/app.css')
     .pipe(postcss(processors))
