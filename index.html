@@ -6,36 +6,18 @@
     <link rel="stylesheet" type="text/css" href="./app.css" />
   </head>
   <body>
-    <ul id="menubar">
-      <li class="submenu">
-        <label>File</label>
-        <ul>
-          <li>New</li>
-          <li>Open</li>
-          <li>Save</li>
-          <li>Save as</li>
-        </ul>
-      </li>
-      <li class="submenu">
-        <label>Editor</label>
-        <ul>
-          <li class="submenu">
-            <label>Theme</label>
-            <ul>
-              <li>Dark</li>
-              <li>Light</li>
-            </ul>
-          </li>
-          <li class="submenu">
-            <label>Language</label>
-            <ul>
-              <li>Javascript</li>
-              <li>Ruby</li>
-            </ul>
-          </li>
-        </ul>
-      </li>
-    </ul>
+    <div id="menubar">
+      <label>Theme</label>
+      <select class="theme">
+        <option value="seti">Dark</option>
+        <option value="default">Light</option>
+      </select>
+      <label>Language</label>
+      <select class="language">
+        <option value="javascript">Javascript</option>
+        <option value="ruby">Ruby</option>
+      </select>
+    </div>
     <textarea id="text">function helloWorld() {
   console.log("hello world");
 }</textarea>

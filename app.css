@@ -371,64 +371,8 @@ span.CodeMirror-selectedtext { background: none; }
 .cm-s-seti span.cm-builtin { color: #9fca56; }
 .cm-s-seti .CodeMirror-activeline-background { background: #101213; }
 .cm-s-seti .CodeMirror-matchingbracket { text-decoration: underline; color: white !important; }
-ul#menubar {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-  -webkit-flex-direction: row;
-      -ms-flex-direction: row;
-          flex-direction: row;
-}
-ul#menubar, ul#menubar ul {
-  margin: 0;
-  padding: 0;
-  z-index: 10;
-}
-ul#menubar li {
-  display: none;
-  -webkit-flex-basis: 7em;
-      -ms-flex-preferred-size: 7em;
-          flex-basis: 7em;
-  min-width: 7em;
-}
-ul#menubar .open > li, ul#menubar > li {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  background-color: white;
-}
-ul#menubar ul.open {
-  border: 1px solid #ddd;
-  box-sizing: border-box;
-}
-ul#menubar .submenu {
-  position: relative;
-}
-ul#menubar label {
-  width: 100%;
-}
-ul#menubar li:hover {
-  background-color: cornflowerblue;
-}
-ul#menubar .submenu .submenu > label:after {
-  content: "\27a4";
-  position: absolute;
-  right: 0;
-  font-size: 75%;
-}
-ul#menubar > .submenu ul.open {
-  position: absolute;
-  left: 0;
-  top: 100%;
-}
-ul#menubar > .submenu ul.open > .submenu ul.open { 
-  position: absolute;
-  left: 100%;
-  top: 0;
+.seti #menubar {
+  background-color: #151718;
 }
 body {
   font-family: sans-serif;
