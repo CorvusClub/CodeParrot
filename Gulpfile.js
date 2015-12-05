@@ -37,7 +37,9 @@ function buildJS(dev) {
   }
   return fileStream.pipe(gulp.dest('./'));
 }
-gulp.task('javascriptsync', ['javascript_dev'], browserSync.reload);
+gulp.task('javascriptsync', ['javascript_dev'], function() {
+  browserSync.reload();
+});
 gulp.task('serve', function() {
   browserSync.init({
     server: {
