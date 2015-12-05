@@ -16,8 +16,24 @@ ul#menubar .open > li, ul#menubar > li {
   display: flex;
   background-color: white;
 }
+ul#menubar ul.open {
+  border: 1px solid #ddd;
+  box-sizing: border-box;
+}
 ul#menubar .submenu {
   position: relative;
+}
+ul#menubar label {
+  width: 100%;
+}
+ul#menubar li:hover {
+  background-color: cornflowerblue;
+}
+ul#menubar .submenu .submenu > label:after {
+  content: "\27a4";
+  position: absolute;
+  right: 0;
+  font-size: 75%;
 }
 ul#menubar > .submenu ul.open {
   position: absolute;

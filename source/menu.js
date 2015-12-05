@@ -2,6 +2,12 @@ class Menu {
   constructor(element) {
     this.element = element;
     this.element.addEventListener("click", this.onClick.bind(this));
+    document.body.addEventListener("click", (event) => {
+      if(!this.element.contains(event.target)) {
+        this.open.forEach(function(menu) { menu.classList.remove("open") });
+        this.open = [];
+      }
+    });
     this.open = [];
   }
   onClick(event) {
@@ -13,16 +19,13 @@ class Menu {
       // do menu item click stuff
       return;
     }
-    console.log(target, this, this.open);
     if(this.open.length > 0) {
-      console.log(this.open.indexOf(target));
       if(this.open.indexOf(target) != -1) {
         target.classList.remove("open");
         this.open.splice(this.open.indexOf(target));
         return;
       }
       this.open.forEach((openMenu) => {
-        console.log(openMenu, target, target.parentElement, openMenu.parentElement);
         if(openMenu.parentElement.parentElement === target.parentElement.parentElement) {
           openMenu.classList.remove("open");
           this.open.splice(this.open.indexOf(openMenu));
