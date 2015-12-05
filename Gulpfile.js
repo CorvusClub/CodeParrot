@@ -10,6 +10,7 @@ var uglify = require('gulp-uglify');
 var postcss = require('gulp-postcss');
 var autoprefixer = require('autoprefixer');
 var importCSS = require('postcss-import');
+var simpleCSSVars = require('postcss-simple-vars');
 
 var browserSync = require('browser-sync').create();
 
@@ -51,7 +52,8 @@ gulp.task('serve', function() {
 function css() {
   var processors = [
     importCSS(),
-    autoprefixer()
+    autoprefixer(),
+    simpleCSSVars()
   ];
   return gulp.src('./source/app.css')
     .pipe(postcss(processors))
