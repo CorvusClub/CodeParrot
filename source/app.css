@@ -1,0 +1,6 @@
+@import "codemirror/lib/codemirror.css";
+body {
+  font-size: 10px;
+  font-family: sans-serif;
+  background-color: black;
+}
