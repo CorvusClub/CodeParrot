@@ -1,9 +1,14 @@
 var gulp = require('gulp');
+
 var sourcemaps = require('gulp-sourcemaps');
 var source = require('vinyl-source-stream');
 var buffer = require('vinyl-buffer');
 var browserify = require('browserify');
 var babel = require('babelify');
+
+var postcss = require('gulp-postcss');
+var autoprefixer = require('autoprefixer');
+var importCSS = require('postcss-import');
 
 gulp.task('javascript', function() {
   var bundler = browserify('./source/index.js', {debug: true}).transform(babel);
@@ -16,6 +21,15 @@ gulp.task('javascript', function() {
     .pipe(sourcemaps.write())
     .pipe(gulp.dest('./'));
 });
+gulp.task('css', function() {
+  var processors = [
+    autoprefixer(),
+    importCSS()
+  ];
+  return gulp.src('./source/app.css')
+    .pipe(postcss(processors))
+    .pipe(gulp.dest('./'));
+});
 
 
-gulp.task('default', ['javascript']);
+gulp.task('default', ['javascript', 'css']);
