@@ -10,6 +10,8 @@ var postcss = require('gulp-postcss');
 var autoprefixer = require('autoprefixer');
 var importCSS = require('postcss-import');
 
+var browserSync = require('browser-sync').create();
+
 gulp.task('javascript', function() {
   var bundler = browserify('./source/index.js', {debug: true}).transform(babel);
 
@@ -21,7 +23,18 @@ gulp.task('javascript', function() {
     .pipe(sourcemaps.write())
     .pipe(gulp.dest('./'));
 });
-gulp.task('css', function() {
+gulp.task('serve', function() {
+  browserSync.init({
+    server: {
+      baseDir: "./"
+    }
+  });
+
+  gulp.watch("./source/app.css", ['synccss']);
+  gulp.watch("./source/index.js", ['javascript'], browserSync.reload);
+  gulp.watch("./index.html", browserSync.reload);
+});
+function css() {
   var processors = [
     importCSS(),
     autoprefixer()
@@ -29,6 +42,10 @@ gulp.task('css', function() {
   return gulp.src('./source/app.css')
     .pipe(postcss(processors))
     .pipe(gulp.dest('./'));
+}
+gulp.task('css', css);
+gulp.task('synccss', function() {
+  css().pipe(browserSync.stream());
 });
 
 

@@ -21,14 +21,15 @@
   "homepage": "https://github.com/CorvusClub/CodeParrot#readme",
   "devDependencies": {
     "autoprefixer": "^6.1.2",
-    "gulp": "^3.9.0",
-    "gulp-postcss": "^6.0.1",
-    "postcss": "^5.0.12",
-    "postcss-import": "^7.1.3",
     "babelify": "^7.2.0",
+    "browser-sync": "^2.10.0",
     "browserify": "^12.0.1",
     "codemirror": "^5.9.0",
+    "gulp": "^3.9.0",
+    "gulp-postcss": "^6.0.1",
     "gulp-sourcemaps": "^1.6.0",
+    "postcss": "^5.0.12",
+    "postcss-import": "^7.1.3",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0"
   }
