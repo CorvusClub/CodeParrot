@@ -31,7 +31,7 @@ gulp.task('serve', function() {
   });
 
   gulp.watch("./source/app.css", ['synccss']);
-  gulp.watch("./source/index.js", ['javascript'], browserSync.reload);
+  gulp.watch("./source/*.js", ['javascript'], browserSync.reload);
   gulp.watch("./index.html", browserSync.reload);
 });
 function css() {
