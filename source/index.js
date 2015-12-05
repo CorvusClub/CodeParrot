@@ -5,6 +5,6 @@ function init() {
 
 window.addEventListener("load", function() {
   var textarea = document.getElementById("text");
-  var codeMirrorInstance = CodeMirror.fromTextArea(textarea);
+  var codeMirrorInstance = CodeMirror.fromTextArea(textarea, {theme: "seti"});
   init();
 });

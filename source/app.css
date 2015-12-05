@@ -1,4 +1,5 @@
 @import "codemirror/lib/codemirror.css";
+@import "codemirror/theme/seti.css";
 body {
   font-size: 10px;
   font-family: sans-serif;
