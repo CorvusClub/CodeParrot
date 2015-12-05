@@ -21,6 +21,7 @@
   "homepage": "https://github.com/CorvusClub/CodeParrot#readme",
   "devDependencies": {
     "autoprefixer": "^6.1.2",
+    "babel-preset-es2015": "^6.3.13",
     "babelify": "^7.2.0",
     "browser-sync": "^2.10.0",
     "browserify": "^12.0.1",

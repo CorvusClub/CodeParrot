@@ -13,7 +13,7 @@ var importCSS = require('postcss-import');
 var browserSync = require('browser-sync').create();
 
 gulp.task('javascript', function() {
-  var bundler = browserify('./source/index.js', {debug: true}).transform(babel);
+  var bundler = browserify('./source/index.js', {debug: true}).transform(babel, {presets: ["es2015"]});
 
   return bundler.bundle()
     .on('error', function(error) { console.error(error); this.emit('end'); })
