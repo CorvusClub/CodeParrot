@@ -1,0 +1,31 @@
+ul#menubar {
+  display: flex;
+  flex-direction: row;
+}
+ul#menubar, ul#menubar ul {
+  margin: 0;
+  padding: 0;
+  z-index: 10;
+}
+ul#menubar li {
+  display: none;
+  flex-basis: 7em;
+  min-width: 7em;
+}
+ul#menubar .open > li, ul#menubar > li {
+  display: flex;
+  background-color: white;
+}
+ul#menubar .submenu {
+  position: relative;
+}
+ul#menubar > .submenu ul.open {
+  position: absolute;
+  left: 0;
+  top: 100%;
+}
+ul#menubar > .submenu ul.open > .submenu ul.open { 
+  position: absolute;
+  left: 100%;
+  top: 0;
+}

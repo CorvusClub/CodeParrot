@@ -391,11 +391,41 @@ ul#menubar {
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: vertical;
+  -webkit-box-orient: horizontal;
   -webkit-box-direction: normal;
-  -webkit-flex-direction: column;
-      -ms-flex-direction: column;
-          flex-direction: column;
+  -webkit-flex-direction: row;
+      -ms-flex-direction: row;
+          flex-direction: row;
+}
+ul#menubar, ul#menubar ul {
   margin: 0;
   padding: 0;
+  z-index: 10;
+}
+ul#menubar li {
+  display: none;
+  -webkit-flex-basis: 7em;
+      -ms-flex-preferred-size: 7em;
+          flex-basis: 7em;
+  min-width: 7em;
+}
+ul#menubar .open > li, ul#menubar > li {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  background-color: white;
+}
+ul#menubar .submenu {
+  position: relative;
+}
+ul#menubar > .submenu ul.open {
+  position: absolute;
+  left: 0;
+  top: 100%;
+}
+ul#menubar > .submenu ul.open > .submenu ul.open { 
+  position: absolute;
+  left: 100%;
+  top: 0;
 }
