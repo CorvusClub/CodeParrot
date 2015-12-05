@@ -10,10 +10,23 @@
     "type": "git",
     "url": "git+https://github.com/CorvusClub/CodeParrot.git"
   },
-  "contributors": ["Tom Shea <tom@shea.at>", "Evaryont"],
+  "contributors": [
+    "Tom Shea <tom@shea.at>",
+    "Evaryont"
+  ],
   "license": "Apache-2.0",
   "bugs": {
     "url": "https://github.com/CorvusClub/CodeParrot/issues"
   },
-  "homepage": "https://github.com/CorvusClub/CodeParrot#readme"
+  "homepage": "https://github.com/CorvusClub/CodeParrot#readme",
+  "devDependencies": {
+    "gulp": "^3.9.0"
+  },
+  "dependencies": {
+    "babelify": "^7.2.0",
+    "browserify": "^12.0.1",
+    "gulp-sourcemaps": "^1.6.0",
+    "vinyl-buffer": "^1.0.0",
+    "vinyl-source-stream": "^1.1.0"
+  }
 }
