@@ -14,3 +14,10 @@ body {
   width: 100%;
   height: 100%;
 }
+
+ul#menubar {
+  display: flex;
+  flex-direction: row;
+  margin: 0;
+  padding: 0;
+}
