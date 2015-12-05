@@ -33,7 +33,7 @@ function buildJS(dev) {
   }
   else {
     fileStream = fileStream
-      .pipe(uglify())
+      .pipe(uglify({ 'preserveComments': 'license' }))
   }
   return fileStream.pipe(gulp.dest('./'));
 }
