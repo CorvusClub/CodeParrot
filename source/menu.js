@@ -1,9 +1,12 @@
 class Menu {
-  constructor(element) {
+  constructor(element, codeMirror) {
     this.element = element;
+    this.codeMirror = codeMirror;
     this.themeSelector = this.element.querySelector(".theme");
     this.themeSelector.addEventListener("change", (event) => {
-      document.body.className = this.themeSelector.value;
+      let theme = this.themeSelector.value;
+      document.body.className = theme;
+      this.codeMirror.setOption({theme});
     });
   }
 }

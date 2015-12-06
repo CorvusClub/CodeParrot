@@ -21,13 +21,7 @@ require('codemirror/mode/javascript/javascript.js');
 var Menu = require('./menu');
 
 var menuBar;
-function init() {
-  console.log("hello world");
-  var bar = document.getElementById("menubar");
-  menuBar = new Menu(bar);
-}
-
-window.addEventListener("load", function() {
+function setupInterface() {
   var textarea = document.getElementById("text");
   var codeMirrorInstance = CodeMirror.fromTextArea(textarea, {
     theme: "seti",
@@ -35,5 +29,11 @@ window.addEventListener("load", function() {
     autofocus: true,
     mode: "javascript"
   });
-  init();
+
+  var bar = document.getElementById("menubar");
+  menuBar = new Menu(bar, codeMirrorInstance);
+}
+
+window.addEventListener("load", function() {
+  setupInterface();
 });
