@@ -389,10 +389,6 @@ span.CodeMirror-selectedtext { background: none; }
  * limitations under the License.
  */
 
-.seti #menubar {
-  background-color: #151718;
-}
-
 body {
   font-family: sans-serif;
   margin: 0;
