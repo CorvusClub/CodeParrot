@@ -37,8 +37,12 @@ function setupInterface() {
   menuBar = new Menu(bar, codeMirrorInstance);
 }
 
+function setupPeer(peerId) {
+  console.log("Connecting as ID", peerId);
+  var peer = new Peer(peerId, {key: 't7dmjiu85s714i'});
+}
+
 window.addEventListener("load", function() {
   setupInterface();
-  window.cp_peer = new Peer({key: 't7dmjiu85s714i'});
-  AnimalId("pascal").then(console.log.bind(console));
+  AnimalId("pascal").then(setupPeer);
 });
