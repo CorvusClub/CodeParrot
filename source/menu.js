@@ -5,6 +5,7 @@ class Menu {
     this.themeSelector = this.element.querySelector(".theme");
     this.themeSelector.addEventListener("change", this.themeSelect.bind(this));
     this.languages = this.element.querySelector('.language');
+
     for (let lang of CodeMirror.modeInfo) {
       let nextMode = document.createElement('option');
       nextMode.value = lang.mode;
@@ -14,11 +15,17 @@ class Menu {
 
     this.languages.addEventListener("change", (event) => {
       let languageChoice = this.languages.value;
-      if (CodeMirror.modes[languageChoice]) {
-        console.log("CodeMirror mode already loaded!", languageChoice);
-      } else {
-        console.log("CodeMirror not loaded, embedding script tag...", languageChoice);
+      if (!CodeMirror.modes.hasOwnProperty(languageChoice)) {
+        console.log("CodeMirror mode %s not loaded, embedding script tag...", languageChoice);
+        let languageScript = document.createElement('script');
+        languageScript.src = "codemirror/mode/" + languageChoice + "/" + languageChoice + ".js";
+        languageScript.addEventListener("load", (event) => {
+          console.log("Loaded!", event);
+          this.codeMirror.setOption("mode", languageChoice);
+        });
+        document.querySelector('body').appendChild(languageScript);
       }
+
     });
 
     this.themeSelect();
