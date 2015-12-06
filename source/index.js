@@ -38,7 +38,6 @@ class CodeParrot {
     this.menuBar = new Menu(this.bar, this.codeMirrorInstance);
     var languages = document.querySelector('.language');
     for (let lang of CodeMirror.modeInfo) {
-      console.log(lang);
       var nextMode = document.createElement('option');
       nextMode.value = lang.mode;
       nextMode.text = lang.name;
