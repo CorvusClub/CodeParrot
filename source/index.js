@@ -18,31 +18,44 @@
 var Peer = require('peerjs');
 
 var CodeMirror = require('codemirror');
+require('codemirror/mode/meta');
 require('codemirror/mode/javascript/javascript.js');
 var AnimalId = require("adjective-adjective-animal");
 
 var Menu = require('./menu');
 
-var menuBar;
-function setupInterface() {
-  var textarea = document.getElementById("text");
-  var codeMirrorInstance = CodeMirror.fromTextArea(textarea, {
-    theme: "seti",
-    lineNumbers: true,
-    autofocus: true,
-    mode: "javascript"
-  });
+class CodeParrot {
+  setupInterface() {
+    this.textarea = document.getElementById("text");
+    this.codeMirrorInstance = CodeMirror.fromTextArea(this.textarea, {
+      theme: "seti",
+      lineNumbers: true,
+      autofocus: true,
+      mode: "javascript"
+    });
 
-  var bar = document.getElementById("menubar");
-  menuBar = new Menu(bar, codeMirrorInstance);
-}
+    this.bar = document.getElementById("menubar");
+    this.menuBar = new Menu(this.bar, this.codeMirrorInstance);
+    var languages = document.querySelector('.language');
+    for (let lang of CodeMirror.modeInfo) {
+      console.log(lang);
+      var nextMode = document.createElement('option');
+      nextMode.value = lang.mode;
+      nextMode.text = lang.name;
+      languages.appendChild(nextMode);
+    }
+  }
 
-function setupPeer(peerId) {
-  console.log("Connecting as ID", peerId);
-  var peer = new Peer(peerId, {key: 't7dmjiu85s714i'});
+  setupPeer(peerId) {
+    this.peer = new Peer(peerId, {key: 't7dmjiu85s714i'});
+    console.log("Connecting as ID", peerId);
+  }
 }
 
 window.addEventListener("load", function() {
-  setupInterface();
-  AnimalId("pascal").then(setupPeer);
+  window.codeparrot = new CodeParrot();
+  window.CodeMirror = CodeMirror // for debugging/lazy dev purposes
+
+  codeparrot.setupInterface();
+  AnimalId("pascal").then(codeparrot.setupPeer.bind(codeparrot));
 });
