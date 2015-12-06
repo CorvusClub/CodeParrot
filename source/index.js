@@ -34,15 +34,24 @@ class CodeParrot {
       mode: "javascript"
     });
 
-    this.bar = document.getElementById("menubar");
-    this.menuBar = new Menu(this.bar, this.codeMirrorInstance);
-    var languages = document.querySelector('.language');
+    // this.bar = document.getElementById("menubar");
+    // this.menuBar = new Menu(this.bar, this.codeMirrorInstance);
+    this.languages = document.querySelector('.language');
     for (let lang of CodeMirror.modeInfo) {
-      var nextMode = document.createElement('option');
+      let nextMode = document.createElement('option');
       nextMode.value = lang.mode;
       nextMode.text = lang.name;
-      languages.appendChild(nextMode);
+      this.languages.appendChild(nextMode);
     }
+
+    this.languages.addEventListener("change", (event) => {
+      let languageChoice = this.languages.value;
+      if (CodeMirror.modes[languageChoice]) {
+        console.log("CodeMirror mode already loaded!", languageChoice);
+      } else {
+        console.log("CodeMirror not loaded, embedding script tag...", languageChoice);
+      }
+    });
   }
 
   setupPeer(peerId) {
