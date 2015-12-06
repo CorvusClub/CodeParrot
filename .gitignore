@@ -23,3 +23,5 @@ coverage
 build/Release
 
 node_modules
+
+docs/

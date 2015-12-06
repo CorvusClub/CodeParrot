@@ -6,6 +6,7 @@ var buffer = require('vinyl-buffer');
 var browserify = require('browserify');
 var babel = require('babelify');
 var uglify = require('gulp-uglify');
+var eslint = require('gulp-eslint');
 
 var postcss = require('gulp-postcss');
 var autoprefixer = require('autoprefixer');
@@ -17,9 +18,11 @@ var browserSync = require('browser-sync').create();
 gulp.task('javascript', function() {
   return buildJS();
 });
+
 gulp.task('javascript_dev', function() {
   return buildJS(true);
 });
+
 function buildJS(dev) {
   var bundler = browserify('./source/index.js', {debug: dev}).transform(babel, {presets: ["es2015"]});
   var fileStream = bundler.bundle()
@@ -37,9 +40,11 @@ function buildJS(dev) {
   }
   return fileStream.pipe(gulp.dest('./'));
 }
+
 gulp.task('javascriptsync', ['javascript_dev'], function() {
   browserSync.reload();
 });
+
 gulp.task('serve', function() {
   browserSync.init({
     server: {
@@ -66,5 +71,10 @@ gulp.task('synccss', function() {
   css().pipe(browserSync.stream());
 });
 
+gulp.task('lint', function() {
+  return gulp.src('source/**/*.js').pipe(eslint())
+    .pipe(eslint.format())
+    .pipe(eslint.failOnError());
+});
 
 gulp.task('default', ['javascript', 'css']);

@@ -1,0 +1,9 @@
+{
+  "parser": "babel-eslint",
+  "extends": "google",
+  "env": {
+    "es6": true,
+    "browser": true,
+    "commonjs": true
+  }
+}
