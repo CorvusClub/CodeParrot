@@ -15,8 +15,11 @@
  * limitations under the License.
  */
 
+var Peer = require('peerjs');
+
 var CodeMirror = require('codemirror');
 require('codemirror/mode/javascript/javascript.js');
+var AnimalId = require("adjective-adjective-animal");
 
 var Menu = require('./menu');
 
@@ -36,4 +39,7 @@ window.addEventListener("load", function() {
     mode: "javascript"
   });
   init();
+
+  window.cp_peer = new Peer({key: 't7dmjiu85s714i'});
+  AnimalId("pascal").then(console.log, console.err);
 });
