@@ -19,7 +19,6 @@ var Peer = require('peerjs');
 
 var CodeMirror = require('codemirror');
 require('codemirror/mode/meta');
-require('codemirror/mode/javascript/javascript.js');
 var AnimalId = require("adjective-adjective-animal");
 
 var Menu = require('./menu');
@@ -30,8 +29,7 @@ class CodeParrot {
     this.codeMirrorInstance = CodeMirror.fromTextArea(this.textarea, {
       theme: "seti",
       lineNumbers: true,
-      autofocus: true,
-      mode: "javascript"
+      autofocus: true
     });
 
     this.bar = document.getElementById("menubar");
