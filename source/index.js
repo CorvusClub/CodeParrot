@@ -40,5 +40,5 @@ function setupInterface() {
 window.addEventListener("load", function() {
   setupInterface();
   window.cp_peer = new Peer({key: 't7dmjiu85s714i'});
-  AnimalId("pascal").then(console.log, console.err);
+  AnimalId("pascal").then(console.log.bind(console));
 });
