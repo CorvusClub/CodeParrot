@@ -21,7 +21,7 @@ class Menu {
       if (!CodeMirror.modes.hasOwnProperty(languageChoice)) {
         console.log('mode %s not loaded, embedding script', languageChoice);
         let languageScript = document.createElement('script');
-        languageScript.src = `code/mode/${languageChoice}/${languageChoice}.js`;
+        languageScript.src = `codemirror/mode/${languageChoice}/${languageChoice}.js`;
         languageScript.addEventListener('load', () => {
           this.codeMirror.setOption('mode', languageChoice);
         });
