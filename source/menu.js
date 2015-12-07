@@ -39,7 +39,7 @@ class Menu {
       let link = document.createElement('link');
       link.rel = 'stylesheet';
       link.type = 'text/css';
-      link.href = `./codemirror/theme/$(theme).css`;
+      link.href = `./codemirror/theme/${theme}.css`;
       link.className = theme;
       document.head.appendChild(link);
       link.addEventListener('load', () => {
