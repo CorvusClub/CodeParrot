@@ -21,6 +21,8 @@ var CodeMirror = require('codemirror');
 require('codemirror/mode/meta');
 var animalId = require('adjective-adjective-animal');
 
+var gulfBindEditor = require('gulf-codemirror');
+
 var Menu = require('./menu');
 
 class CodeParrot {
@@ -32,10 +34,22 @@ class CodeParrot {
       lineNumbers: true,
       autofocus: true
     });
+    this.gulfDoc = gulfBindEditor(this.codeMirrorInstance);
 
     this.bar = document.getElementById('menubar');
     this.menuBar = new Menu(this.bar, this.codeMirrorInstance);
-    this.showWelcome();
+    this.showWelcome().then(() => {
+      if(this.client) {
+        this.gulfDoc.slaveLink().on('data', data => {
+          console.log(data);
+        });
+      }
+      else {
+        this.gulfDoc.masterLink().on('data', data => {
+          console.log(data);
+        });
+      }
+    });
   }
 
   /** Shows the welcome screen, connecting the UI to callbacks */
@@ -43,18 +57,19 @@ class CodeParrot {
     this.welcome = document.getElementById('welcome');
     if (location.hash) {
       let id = location.hash.slice(1);
-      this.setupPeer(id);
-      return;
+      return this.setupPeer(id);
     }
-    this.welcome.classList.add('active');
-    let connectButton = this.welcome.querySelector('button#connect');
-    connectButton.addEventListener('click', () => {
-      let peerId = this.welcome.querySelector('input[name="peerid"]').value;
-      this.setupPeer(peerId);
-    });
-    let generateButton = this.welcome.querySelector('button#generateId');
-    generateButton.addEventListener('click', () => {
-      this.setupPeer();
+    return new Promise(resolve => {
+      this.welcome.classList.add('active');
+      let connectButton = this.welcome.querySelector('button#connect');
+      connectButton.addEventListener('click', () => {
+        let peerId = this.welcome.querySelector('input[name="peerid"]').value;
+        this.setupPeer(peerId).then(resolve);
+      });
+      let generateButton = this.welcome.querySelector('button#generateId');
+      generateButton.addEventListener('click', () => {
+        this.setupPeer().then(resolve);
+      });
     });
   }
 
@@ -79,6 +94,7 @@ class CodeParrot {
               location.hash = '#' + peerId;
               this.peer.connect(peerId);
               console.log(`Connecting to peer ${peerId}`);
+              this.client = true;
               resolve(this.peer);
             });
           } else {
