@@ -19,33 +19,36 @@ var Peer = require('peerjs');
 
 var CodeMirror = require('codemirror');
 require('codemirror/mode/meta');
-var AnimalId = require("adjective-adjective-animal");
+var AnimalId = require('adjective-adjective-animal');
 
 var Menu = require('./menu');
 
 class CodeParrot {
+  /** Set up every piece of the UI */
   setupInterface() {
-    this.textarea = document.getElementById("text");
+    this.textarea = document.getElementById('text');
     this.codeMirrorInstance = CodeMirror.fromTextArea(this.textarea, {
-      theme: "seti",
+      theme: 'seti',
       lineNumbers: true,
       autofocus: true
     });
 
-    this.bar = document.getElementById("menubar");
+    this.bar = document.getElementById('menubar');
     this.menuBar = new Menu(this.bar, this.codeMirrorInstance);
   }
 
+  /** Connect to our friend and establish the synchronization */
   setupPeer(peerId) {
     this.peer = new Peer(peerId, {key: 't7dmjiu85s714i'});
-    console.log("Connecting as ID", peerId);
+    console.log('Connecting as ID', peerId);
   }
 }
 
-window.addEventListener("load", function() {
+window.addEventListener('load', function() {
   window.codeparrot = new CodeParrot();
-  window.CodeMirror = CodeMirror // for debugging/lazy dev purposes
+  // for debugging/lazy dev purposes
+  window.CodeMirror = CodeMirror;
 
-  codeparrot.setupInterface();
-  AnimalId("pascal").then(codeparrot.setupPeer.bind(codeparrot));
+  window.codeparrot.setupInterface();
+  AnimalId('pascal').then(window.codeparrot.setupPeer.bind(window.codeparrot));
 });
