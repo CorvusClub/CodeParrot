@@ -39,12 +39,11 @@ class CodeParrot {
     this.bar = document.getElementById('menubar');
     this.menuBar = new Menu(this.bar, this.codeMirrorInstance);
     this.showWelcome().then(() => {
-      if(this.client) {
+      if (this.client) {
         this.gulfDoc.slaveLink().on('data', data => {
           console.log(data);
         });
-      }
-      else {
+      } else {
         this.gulfDoc.masterLink().on('data', data => {
           console.log(data);
         });
