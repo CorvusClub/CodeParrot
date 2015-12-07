@@ -35,11 +35,37 @@ class CodeParrot {
 
     this.bar = document.getElementById('menubar');
     this.menuBar = new Menu(this.bar, this.codeMirrorInstance);
+    this.setupWelcome();
+  }
+  setupWelcome() {
+    this.welcome = document.getElementById('welcome');
+    if(location.hash) {
+      let id = location.hash.slice(1);
+      this.setupPeer(id);
+      return;
+    }
+    this.welcome.classList.add("active");
+    let connectButton = welcome.querySelector('button#connect');
+    connectButton.addEventListener('click', () => {
+      this.setupPeer(welcome.querySelector('input[name="peerid"]').value);
+    });
+    let generateButton = welcome.querySelector('button#generateId');
+    generateButton.addEventListener('click', () => {
+      AnimalId('pascal').then(this.setupPeer.bind(this));
+    });
   }
 
   /** Connect to our friend and establish the synchronization */
   setupPeer(peerId) {
     this.peer = new Peer(peerId, {key: 't7dmjiu85s714i'});
+    location.hash = "#" + peerId;
+    this.peer.on('open', () => {
+      this.welcome.classList.add("fade");
+      let listener = this.welcome.addEventListener("transitionend", () => {
+        this.welcome.classList.remove("active");
+        this.welcome.removeEventListener(listener);
+      });
+    });
     console.log('Connecting as ID', peerId);
   }
 }
@@ -50,5 +76,4 @@ window.addEventListener('load', function() {
   window.CodeMirror = CodeMirror;
 
   window.codeparrot.setupInterface();
-  AnimalId('pascal').then(window.codeparrot.setupPeer.bind(window.codeparrot));
 });

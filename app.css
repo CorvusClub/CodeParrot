@@ -411,6 +411,25 @@ textarea#text {
 }
 
 #welcome {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #191919;
+  z-index: 20;
+  -webkit-transition: opacity 1s linear;
+  transition: opacity 1s linear;
+  opacity: 1;
+  display: none;
+}
+#welcome.active {
+  display: block;
+}
+#welcome.fade {
+  opacity: 0;
+}
+#welcome .modal {
   width: 20rem;
   height: 20rem;
   position: absolute;
@@ -419,7 +438,6 @@ textarea#text {
   right: 0;
   margin:  auto;
   margin-top: -10rem;
-  z-index: 20;
 
   background-color: black;
   color: white;
