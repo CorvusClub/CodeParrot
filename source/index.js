@@ -19,7 +19,7 @@ var Peer = require('peerjs');
 
 var CodeMirror = require('codemirror');
 require('codemirror/mode/meta');
-var AnimalId = require('adjective-adjective-animal');
+var animalId = require('adjective-adjective-animal');
 
 var Menu = require('./menu');
 
@@ -47,29 +47,54 @@ class CodeParrot {
       return;
     }
     this.welcome.classList.add('active');
-    let connectButton = welcome.querySelector('button#connect');
+    let connectButton = this.welcome.querySelector('button#connect');
     connectButton.addEventListener('click', () => {
-      this.setupPeer(welcome.querySelector('input[name="peerid"]').value);
+      let peerId = this.welcome.querySelector('input[name="peerid"]').value;
+      this.setupPeer(peerId);
     });
-    let generateButton = welcome.querySelector('button#generateId');
+    let generateButton = this.welcome.querySelector('button#generateId');
     generateButton.addEventListener('click', () => {
-      AnimalId('pascal').then(this.setupPeer.bind(this));
+      this.setupPeer();
+    });
+  }
+
+  /** Hides the welcome screen with a nice fade animation */
+  hideWelcome() {
+    this.welcome.classList.add('fade');
+    let listener = this.welcome.addEventListener('transitionend', () => {
+      this.welcome.classList.remove('active');
+      this.welcome.removeEventListener('transitionend', listener);
     });
   }
 
   /** Connect to our friend and establish the synchronization */
   setupPeer(peerId) {
-    this.peer = new Peer(peerId, {key: 't7dmjiu85s714i'});
-    location.hash = '#' + peerId;
-    this.peer.on('open', () => {
-      console.log('Connection opened', peerId);
-      this.welcome.classList.add('fade');
-      let listener = this.welcome.addEventListener('transitionend', () => {
-        this.welcome.classList.remove('active');
-        this.welcome.removeEventListener('transitionend', listener);
+    return new Promise((resolve, reject) => {
+      return Promise.resolve(peerId || animalId('pascal')).then(myId => {
+        this.peer = new Peer(myId, {key: 't7dmjiu85s714i'});
+        this.peer.once('error', error => {
+          if (error.type === 'unavailable-id') {
+            console.log(`ID ${peerId} taken, so generating new ID and connecting to peer`);
+            this.setupPeer().then(() => {
+              location.hash = '#' + peerId;
+              this.peer.connect(peerId);
+              console.log(`Connecting to peer ${peerId}`);
+              resolve(this.peer);
+            });
+          } else {
+            reject(error);
+          }
+        });
+        this.peer.once('open', () => {
+          console.log(`Connection to PeerServer opened with ID ${myId}`);
+          location.hash = '#' + myId;
+          resolve(this.peer);
+        });
+        console.log(`Connecting to PeerServer as ID ${myId}`);
       });
+    }).then(() => {
+      this.hideWelcome();
     });
-    console.log('Connecting as ID', peerId);
   }
 }
 
