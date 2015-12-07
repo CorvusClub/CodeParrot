@@ -22,6 +22,8 @@ require('codemirror/mode/meta');
 var animalId = require('adjective-adjective-animal');
 
 var gulfBindEditor = require('gulf-codemirror');
+var gulf = require('gulf');
+var textOT = require('ot-text').type;
 
 var Menu = require('./menu');
 
@@ -38,14 +40,41 @@ class CodeParrot {
 
     this.bar = document.getElementById('menubar');
     this.menuBar = new Menu(this.bar, this.codeMirrorInstance);
-    this.showWelcome().then(() => {
-      if (this.client) {
-        this.gulfDoc.slaveLink().on('data', data => {
-          console.log(data);
+    this.connections = [];
+    this.showWelcome().then(masterConnection => {
+      console.log(masterConnection);
+      if (masterConnection) {
+        masterConnection.on('open', () => {
+          masterConnection.masterLink = this.gulfDoc.masterLink();
+          masterConnection.on('data', data => {
+            console.log('got master data', data);
+            masterConnection.masterLink.write(data);
+          });
+          masterConnection.masterLink.on('data', data => {
+            console.log('data for master link', data);
+            masterConnection.send(data);
+          });
         });
       } else {
-        this.gulfDoc.masterLink().on('data', data => {
-          console.log(data);
+        gulf.Document.create(new gulf.MemoryAdapter(), textOT, this.codeMirrorInstance.getValue(), (err, doc) => {
+          if (err) {
+            return Promise.reject(err);
+          }
+          this.masterDoc = doc;
+          var slaveLink = this.masterDoc.slaveLink();
+          slaveLink.pipe(this.gulfDoc.masterLink()).pipe(slaveLink);
+        });
+        this.peer.on('connection', connection => {
+          console.log(`Client connected: ${connection.id}`);
+          connection.slaveLink = this.masterDoc.slaveLink();
+          connection.slaveLink.on('data', data => {
+            console.log('Slavelink data:', data);
+            connection.send(data);
+          });
+          connection.on('data', data => {
+            console.log('got peer data', data);
+            connection.slaveLink.write(data);
+          });
         });
       }
     });
@@ -91,10 +120,8 @@ class CodeParrot {
             console.log(`ID ${peerId} taken, so generating new ID and connecting to peer`);
             this.setupPeer().then(() => {
               location.hash = '#' + peerId;
-              this.peer.connect(peerId);
               console.log(`Connecting to peer ${peerId}`);
-              this.client = true;
-              resolve(this.peer);
+              resolve(this.peer.connect(peerId, {reliable: true}));
             });
           } else {
             reject(error);
@@ -103,12 +130,13 @@ class CodeParrot {
         this.peer.once('open', () => {
           console.log(`Connection to PeerServer opened with ID ${myId}`);
           location.hash = '#' + myId;
-          resolve(this.peer);
+          resolve();
         });
         console.log(`Connecting to PeerServer as ID ${myId}`);
       });
-    }).then(() => {
+    }).then(masterConnection => {
       this.hideWelcome();
+      return masterConnection;
     });
   }
 }
