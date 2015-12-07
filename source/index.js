@@ -35,16 +35,18 @@ class CodeParrot {
 
     this.bar = document.getElementById('menubar');
     this.menuBar = new Menu(this.bar, this.codeMirrorInstance);
-    this.setupWelcome();
+    this.showWelcome();
   }
-  setupWelcome() {
+
+  /** Shows the welcome screen, connecting the UI to callbacks */
+  showWelcome() {
     this.welcome = document.getElementById('welcome');
-    if(location.hash) {
+    if (location.hash) {
       let id = location.hash.slice(1);
       this.setupPeer(id);
       return;
     }
-    this.welcome.classList.add("active");
+    this.welcome.classList.add('active');
     let connectButton = welcome.querySelector('button#connect');
     connectButton.addEventListener('click', () => {
       this.setupPeer(welcome.querySelector('input[name="peerid"]').value);
@@ -58,12 +60,13 @@ class CodeParrot {
   /** Connect to our friend and establish the synchronization */
   setupPeer(peerId) {
     this.peer = new Peer(peerId, {key: 't7dmjiu85s714i'});
-    location.hash = "#" + peerId;
+    location.hash = '#' + peerId;
     this.peer.on('open', () => {
-      this.welcome.classList.add("fade");
-      let listener = this.welcome.addEventListener("transitionend", () => {
-        this.welcome.classList.remove("active");
-        this.welcome.removeEventListener(listener);
+      console.log('Connection opened', peerId);
+      this.welcome.classList.add('fade');
+      let listener = this.welcome.addEventListener('transitionend', () => {
+        this.welcome.classList.remove('active');
+        this.welcome.removeEventListener('transitionend', listener);
       });
     });
     console.log('Connecting as ID', peerId);
@@ -71,8 +74,8 @@ class CodeParrot {
 }
 
 window.addEventListener('load', function() {
+  // for debugging/lazy dev purposes:
   window.codeparrot = new CodeParrot();
-  // for debugging/lazy dev purposes
   window.CodeMirror = CodeMirror;
 
   window.codeparrot.setupInterface();
