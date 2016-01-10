@@ -65,7 +65,8 @@ gulp.task('serve', function() {
   browserSync.init({
     server: {
       baseDir: './'
-    }
+    },
+    ghostMode: false
   });
 
   gulp.watch('./source/*.css', ['synccss']);
