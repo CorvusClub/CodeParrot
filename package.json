@@ -49,5 +49,9 @@
     "postcss-simple-vars": "^1.1.0",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0"
+  },
+  "dependencies": {
+    "pgp-wordlist-phrase": "^1.0.0",
+    "to-pascal-case": "0.0.2"
   }
 }

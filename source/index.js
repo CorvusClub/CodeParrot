@@ -19,7 +19,9 @@ var Peer = require('peerjs');
 
 var CodeMirror = require('codemirror');
 require('codemirror/mode/meta');
-var animalId = require('adjective-adjective-animal');
+
+var pgpPhrase = require('pgp-wordlist-phrase');
+var pascal = require('to-pascal-case');
 
 var Menu = require('./menu');
 var CodeDocument = require('./document.js');
@@ -75,7 +77,13 @@ class CodeParrot {
   /** Connect to our friend and establish the synchronization */
   setupPeer(peerId) {
     return new Promise((resolve, reject) => {
-      return Promise.resolve(peerId || animalId('pascal')).then(myId => {
+      var id = peerId;
+      if(!id) {
+        id = pgpPhrase(3).then(words => {
+          return pascal(words.join(" "))
+        });
+      }
+      return Promise.resolve(id).then(myId => {
         this.peer = new Peer(myId, {key: 't7dmjiu85s714i'});
         this.peer.once('error', error => {
           if (error.type === 'unavailable-id') {
