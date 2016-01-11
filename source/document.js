@@ -1,12 +1,14 @@
+var CodeMirror = require('codemirror');
+require('codemirror/mode/meta');
+
 var gulfBindEditor = require('gulf-codemirror');
 var gulf = require('gulf');
 var textOT = require('ot-text').type;
 
 var PeerStream = require('./peerstream');
-var masterDebug = require('debug')('cp:master');
-var clientDebug = require('debug')('cp:client');
 
 class Document {
+  /** CodeMirror, gulf and peerjs document bindings all together */
   constructor(peer) {
     this.peer = peer;
     this.textarea = document.getElementById('text');
@@ -17,6 +19,7 @@ class Document {
     });
     this.gulfDoc = gulfBindEditor(this.codeMirrorInstance);
   }
+  /** If we're a client, we just need to hook up the peer connection to our gulf masterLink */
   setupAsClient(connectionToMaster) {
     connectionToMaster.on('open', () => {
       var masterLink = this.gulfDoc.masterLink();
@@ -25,6 +28,7 @@ class Document {
     });
     this.connectionToMaster = connectionToMaster;
   }
+  /** If we're the master, we need to hook up each client to a new gulf slaveLink */
   setupAsMaster() {
     gulf.Document.create(new gulf.MemoryAdapter(), textOT, this.codeMirrorInstance.getValue(), (err, doc) => {
       if (err) {
@@ -35,7 +39,6 @@ class Document {
       slaveLink.pipe(this.gulfDoc.masterLink()).pipe(slaveLink);
     });
     this.peer.on('connection', connection => {
-      masterDebug(`Client connected: ${connection.id}`);
       var slaveLink = this.masterDoc.slaveLink();
       var slaveStream = new PeerStream(connection);
       slaveLink.pipe(slaveStream).pipe(slaveLink);

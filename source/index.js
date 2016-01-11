@@ -17,9 +17,6 @@
 
 var Peer = require('peerjs');
 
-var CodeMirror = require('codemirror');
-require('codemirror/mode/meta');
-
 var pgpPhrase = require('pgp-wordlist-phrase');
 var pascal = require('to-pascal-case');
 
@@ -78,9 +75,9 @@ class CodeParrot {
   setupPeer(peerId) {
     return new Promise((resolve, reject) => {
       var id = peerId;
-      if(!id) {
+      if (!id) {
         id = pgpPhrase(3).then(words => {
-          return pascal(words.join(" "))
+          return pascal(words.join(' '));
         });
       }
       return Promise.resolve(id).then(myId => {
@@ -114,7 +111,6 @@ class CodeParrot {
 window.addEventListener('load', function() {
   // for debugging/lazy dev purposes:
   window.codeparrot = new CodeParrot();
-  window.CodeMirror = CodeMirror;
 
   window.codeparrot.setupInterface();
 });

@@ -1,25 +1,22 @@
 var stream = require('stream');
-var debug = require('debug')('cp:PeerStream');
 
 class PeerStream extends stream.Duplex {
+  /** Stream interface for PeerJS connections */
   constructor(peerConnection) {
     super({objectMode: true});
     this.peerConnection = peerConnection;
     this.peerConnection.on('data', data => {
-      debug('push', data);
       this.push(data);
     });
-    debug("PeerStream constructed");
   }
+  /** We don't need to respond to a desire to read, but it has to be implemented, so noop */
   _read() {
-    debug('_read()');
   }
+  /** called by nodejs when the stream is written to */
   _write(data, encoding, callback) {
-    debug('write', data);
     this.peerConnection.send(data);
     callback();
   }
-  
 }
 
 module.exports = PeerStream;
