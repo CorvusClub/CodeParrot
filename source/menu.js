@@ -1,10 +1,14 @@
 var CodeMirror = require('codemirror');
 
+// this is required to hotload codemirror language modules, it's nasty but it'll have to do
+window.CodeMirror = CodeMirror;
+
 class Menu {
   /** Locate all of the UI components on the DOM for the top menus */
-  constructor(element, codeMirror) {
+  constructor(element, codeDocument) {
     this.element = element;
-    this.codeMirror = codeMirror;
+    this.codeDocument = codeDocument;
+    this.codeMirror = this.codeDocument.codeMirrorInstance;
     this.themeSelector = this.element.querySelector('.theme');
     this.themeSelector.addEventListener('change', this.themeSelect.bind(this));
     this.languages = this.element.querySelector('.language');
@@ -18,18 +22,38 @@ class Menu {
 
     this.languages.addEventListener('change', () => {
       let languageChoice = this.languages.value;
-      if (!CodeMirror.modes.hasOwnProperty(languageChoice)) {
-        console.log('mode %s not loaded, embedding script', languageChoice);
-        let languageScript = document.createElement('script');
-        languageScript.src = `codemirror/mode/${languageChoice}/${languageChoice}.js`;
-        languageScript.addEventListener('load', () => {
-          this.codeMirror.setOption('mode', languageChoice);
-        });
-        document.querySelector('body').appendChild(languageScript);
+      this.changeLanguage(languageChoice);
+      this.codeDocument.sendMessage({
+        message: 'changeLanguage',
+        language: this.codeDocument.language
+      });
+    });
+
+    this.codeDocument.on('systemMessage', data => {
+      if (data.message === 'changeLanguage') {
+        this.changeLanguage(data.language);
       }
     });
 
     this.themeSelect();
+  }
+  /** Change language for syntax highlighting */
+  changeLanguage(languageChoice) {
+    if (this.languages.value !== languageChoice) {
+      this.languages.value = languageChoice;
+    }
+    this.codeDocument.language = languageChoice;
+    if (!CodeMirror.modes.hasOwnProperty(languageChoice)) {
+      console.log('mode %s not loaded, embedding script', languageChoice);
+      let languageScript = document.createElement('script');
+      languageScript.src = `codemirror/mode/${languageChoice}/${languageChoice}.js`;
+      languageScript.addEventListener('load', () => {
+        this.codeMirror.setOption('mode', languageChoice);
+      });
+      document.querySelector('body').appendChild(languageScript);
+    } else {
+      this.codeMirror.setOption('mode', languageChoice);
+    }
   }
 
   /** Handle loading the user's desired theme */

@@ -32,7 +32,7 @@ class CodeParrot {
     this.connections = [];
     this.showWelcome().then(masterConnection => {
       this.codeDocument = new CodeDocument(this.peer);
-      this.menuBar = new Menu(this.bar, this.codeDocument.codeMirrorInstance);
+      this.menuBar = new Menu(this.bar, this.codeDocument);
       if (masterConnection) {
         this.codeDocument.setupAsClient(masterConnection);
       } else {

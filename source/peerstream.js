@@ -6,6 +6,10 @@ class PeerStream extends stream.Duplex {
     super({objectMode: true});
     this.peerConnection = peerConnection;
     this.peerConnection.on('data', data => {
+      if (data.systemMessage) {
+        this.emit('systemMessage', data);
+        return;
+      }
       this.push(data);
     });
   }
@@ -16,6 +20,11 @@ class PeerStream extends stream.Duplex {
   _write(data, encoding, callback) {
     this.peerConnection.send(data);
     callback();
+  }
+  /** Send a non-gulf message (eg for syncing language) */
+  sendSystemMessage(message) {
+    message.systemMessage = true;
+    this.write(message);
   }
 }
 
