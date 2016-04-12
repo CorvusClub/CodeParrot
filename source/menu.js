@@ -1,4 +1,5 @@
 var CodeMirror = require('codemirror');
+var languageDebug = require('debug')('cp:language');
 
 // this is required to hotload codemirror language modules, it's nasty but it'll have to do
 window.CodeMirror = CodeMirror;
@@ -22,6 +23,7 @@ class Menu {
 
     this.languages.addEventListener('change', () => {
       let languageChoice = this.languages.value;
+      languageDebug(`Changing language to ${languageChoice} / ${this.codeDocument.language}`);
       this.changeLanguage(languageChoice);
       this.codeDocument.sendMessage({
         message: 'changeLanguage',
@@ -31,6 +33,7 @@ class Menu {
 
     this.codeDocument.on('systemMessage', data => {
       if (data.message === 'changeLanguage') {
+        languageDebug(`Got a new message to change the language: ${data.language}`);
         this.changeLanguage(data.language);
       }
     });
@@ -44,7 +47,7 @@ class Menu {
     }
     this.codeDocument.language = languageChoice;
     if (!CodeMirror.modes.hasOwnProperty(languageChoice)) {
-      console.log('mode %s not loaded, embedding script', languageChoice);
+      languageDebug('mode %s not loaded, embedding script', languageChoice);
       let languageScript = document.createElement('script');
       languageScript.src = `codemirror/mode/${languageChoice}/${languageChoice}.js`;
       languageScript.addEventListener('load', () => {
