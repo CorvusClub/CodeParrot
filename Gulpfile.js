@@ -20,16 +20,16 @@ function buildJS(dev) {
   var bundler = browserify('./source/index.js', {debug: dev})
                 .transform(babel, {presets: ['es2015'], global: true});
 
-  var fileStream = bundler.bundle()
+  return bundler.bundle()
     .on('error', function(error) {
       console.error(error); this.emit('end');
     })
     .pipe(source('index.js'))
     .pipe(buffer())
     .pipe(sourcemaps.init({loadMaps: true}))
-    .pipe(uglify({preserveComments: 'license'}))
-    .pipe(sourcemaps.write());
-  return fileStream.pipe(gulp.dest('./'));
+    //.pipe(uglify({preserveComments: 'license'}))
+    .pipe(sourcemaps.write())
+    .pipe(gulp.dest('./'));
 }
 
 /** Use PostCSS to merge concatenate our CSS together. */
