@@ -25,15 +25,10 @@ function buildJS(dev) {
       console.error(error); this.emit('end');
     })
     .pipe(source('index.js'))
-    .pipe(buffer());
-  if (dev) {
-    fileStream = fileStream
-      .pipe(sourcemaps.init({loadMaps: true}))
-      .pipe(sourcemaps.write());
-  } else {
-    fileStream = fileStream
-      .pipe(uglify({preserveComments: 'license'}));
-  }
+    .pipe(buffer())
+    .pipe(sourcemaps.init({loadMaps: true}))
+    .pipe(uglify({preserveComments: 'license'}))
+    .pipe(sourcemaps.write());
   return fileStream.pipe(gulp.dest('./'));
 }
 
