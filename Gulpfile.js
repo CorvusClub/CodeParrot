@@ -18,7 +18,7 @@ var browserSync = require('browser-sync').create();
 /** Convert our ES6 JS into a usable form for browsers. */
 function buildJS(dev) {
   var bundler = browserify('./source/index.js', {debug: dev})
-                .transform(babel, {presets: ['es2015']});
+                .transform(babel, {presets: ['es2015'], global: true});
 
   var fileStream = bundler.bundle()
     .on('error', function(error) {
