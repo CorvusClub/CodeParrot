@@ -29,7 +29,7 @@ function buildJS(dev) {
     .pipe(sourcemaps.init({loadMaps: true}))
     //.pipe(uglify({preserveComments: 'license'}))
     .pipe(sourcemaps.write())
-    .pipe(gulp.dest('./'));
+    .pipe(gulp.dest('./build/'));
 }
 
 /** Use PostCSS to merge concatenate our CSS together. */
@@ -41,7 +41,7 @@ function css() {
   ];
   return gulp.src('./source/app.css')
     .pipe(postcss(processors))
-    .pipe(gulp.dest('./'));
+    .pipe(gulp.dest('./build/'));
 }
 
 gulp.task('javascript', function() {
