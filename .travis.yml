@@ -2,5 +2,7 @@ language: node_js
 node_js:
 - '6'
 before_install:
-- openssl aes-256-cbc -K $encrypted_ffa476b0a0d0_key -iv $encrypted_ffa476b0a0d0_iv
-  -in deploy_rsa.enc -out deploy_rsa -d
+  - openssl aes-256-cbc -K $encrypted_ffa476b0a0d0_key -iv $encrypted_ffa476b0a0d0_iv -in deploy_rsa.enc -out deploy_rsa -d
+script:
+  - npm run gulp
+  - cp -r assets index.html -t build/
