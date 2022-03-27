@@ -1,5 +1,12 @@
 import * as monaco from "monaco-editor";
 import "./index.css";
+import * as Y from "yjs";
+import { WebrtcProvider } from "y-webrtc";
+import { MonacoBinding } from "y-monaco";
+
+const ydoc = new Y.Doc();
+const provider = new WebrtcProvider("monaco", ydoc);
+const type = ydoc.getText("monaco");
 
 self.MonacoEnvironment = {
     getWorkerUrl: function (moduleId, label) {
@@ -19,7 +26,14 @@ self.MonacoEnvironment = {
     },
 };
 
-monaco.editor.create(document.getElementById("editor")!, {
+const editor = monaco.editor.create(document.getElementById("editor")!, {
     value: ["function x() {", '\tconsole.log("Hello world!");', "}"].join("\n"),
     language: "javascript",
 });
+
+const monacoBinding = new MonacoBinding(
+    type,
+    editor.getModel(),
+    new Set([editor]),
+    provider.awareness
+);
