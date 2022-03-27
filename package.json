@@ -30,7 +30,7 @@
     "prettier": {
         "arrowParens": "avoid",
         "bracketSpacing": true,
-        "endOfLine": "crlf",
+        "endOfLine": "lf",
         "singleQuote": false,
         "bracketSameLine": true,
         "htmlWhitespaceSensitivity": "css",
