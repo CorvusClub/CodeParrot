@@ -4,8 +4,6 @@ const path = require("path");
 const esBuildSettings = require("./esBuildSettings");
 
 async function dev() {
-    await require("./build");
-
     const { host, port } = await esbuild.serve(
         { servedir: path.resolve(__dirname, "../dist"), host: "localhost" },
         esBuildSettings.main
