@@ -1,0 +1,22 @@
+{
+    "name": "codeparrot",
+    "version": "3.0.0",
+    "description": "Web-based, lightweight peer to peer synchronization of syntax-highlighted code. AKA a shared notepad.",
+    "main": "dist/index.js",
+    "scripts": {
+        "build": "node scripts/build.js",
+        "dev": "node scripts/dev.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/CorvusClub/CodeParrot.git"
+    },
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/CorvusClub/CodeParrot/issues"
+    },
+    "homepage": "https://github.com/CorvusClub/CodeParrot#readme",
+    "dependencies": {
+        "esbuild": "^0.14.28"
+    }
+}
