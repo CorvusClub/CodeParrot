@@ -6,7 +6,10 @@ const path = require("path");
 async function build() {
     await fs.rmdir(path.resolve(__dirname, "../dist"), { recursive: true });
     try {
-        await esbuild.build(esBuildSettings);
+        await Promise.all([
+            esbuild.build(esBuildSettings.main),
+            esbuild.build(esBuildSettings.worker),
+        ]);
     } catch (e) {
         console.error(e);
         process.exit(1);
