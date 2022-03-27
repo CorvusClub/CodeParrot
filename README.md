@@ -1,5 +1,5 @@
 <img src="assets/parrot_logo.png" align="right" />
 
-# CodeParrot
+# ♊ CodeParrot
 
-Web-based, lightweight peer to peer synchronization of syntax-highlighted code
+Web-based, lightweight peer to peer synchronization of syntax-highlighted code. AKA, a shared notepad between coders.
