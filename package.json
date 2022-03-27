@@ -18,5 +18,8 @@
     "homepage": "https://github.com/CorvusClub/CodeParrot#readme",
     "dependencies": {
         "esbuild": "^0.14.28"
+    },
+    "devDependencies": {
+        "esbuild-plugin-copy": "^1.2.1"
     }
 }

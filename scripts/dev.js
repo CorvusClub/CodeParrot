@@ -3,4 +3,8 @@ const path = require("path");
 
 const esBuildSettings = require("./esBuildSettings");
 
-esbuild.serve({ servedir: path.resolve(__dirname, "../dist") }, esBuildSettings);
+esbuild
+    .serve({ servedir: path.resolve(__dirname, "../dist"), host: "localhost" }, esBuildSettings)
+    .then(({ host, port }) => {
+        console.log(`Serving on http://${host}:${port}`);
+    });
