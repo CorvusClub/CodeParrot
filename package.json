@@ -5,7 +5,8 @@
     "main": "dist/index.js",
     "scripts": {
         "build": "node scripts/build.js",
-        "dev": "node scripts/dev.js"
+        "dev": "node scripts/dev.js",
+        "predev": "npm run build"
     },
     "repository": {
         "type": "git",
