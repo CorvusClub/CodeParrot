@@ -26,6 +26,7 @@ module.exports = {
         loader: {
             ".ttf": "file",
         },
+        sourcemap: true,
     },
     worker: {
         entryPoints: workerEntryPoints.map(entry =>

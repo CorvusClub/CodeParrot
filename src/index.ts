@@ -1,4 +1,5 @@
 import * as monaco from "monaco-editor";
+import "./index.css";
 
 self.MonacoEnvironment = {
     getWorkerUrl: function (moduleId, label) {
@@ -18,7 +19,7 @@ self.MonacoEnvironment = {
     },
 };
 
-monaco.editor.create(document.getElementById("container"), {
+monaco.editor.create(document.getElementById("editor"), {
     value: ["function x() {", '\tconsole.log("Hello world!");', "}"].join("\n"),
     language: "javascript",
 });
