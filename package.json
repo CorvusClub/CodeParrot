@@ -18,10 +18,10 @@
     },
     "homepage": "https://github.com/CorvusClub/CodeParrot#readme",
     "dependencies": {
-        "esbuild": "^0.14.28",
         "monaco-editor": "^0.33.0"
     },
     "devDependencies": {
+        "esbuild": "^0.14.28",
         "esbuild-plugin-copy": "^1.2.1"
     }
 }
